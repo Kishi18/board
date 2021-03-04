@@ -41,9 +41,8 @@
 </script>
 <body>
 <form class="boardWrite">
+<input type="hidden" id="pageNo" value="${pageNo.pageNo}">
 	<table align="center">
-	
-	<input type="hidden" id="pageNo" value="${pageNo.pageNo}">
 		<tr>
 			<td align="right">
 			<input id="submit" type="button" value="작성">
@@ -52,6 +51,19 @@
 		<tr>
 			<td>
 				<table border ="1"> 
+					<tr>
+						<td width="120" align="center">
+						Type
+						</td>
+						<td width="400">
+							<select name="type">
+  								<option value="일반" selected="selected">일반</option>
+  								<option value="QnA">QnA</option>
+  								<option value="익명">익명</option>
+  								<option value="자유">자유</option>
+							</select>
+						</td>
+					</tr>
 					<tr>
 						<td width="120" align="center">
 						Title
