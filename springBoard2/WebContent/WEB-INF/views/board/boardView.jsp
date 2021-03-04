@@ -12,20 +12,51 @@
 	$j(document).ready(function(){
 		
 		$j("#delete").on("click",function(){
-			var param = {boardNum:${board.boardNum}};
+			var param = {boardNum:${boardNum}};
+			var page = $j('#pageNo').val();
 			
 			$j.ajax({
 			    url : "/board/boardDeleteAction.do",
 			    dataType: "json",
 			    type: "POST",
 			    data : param,
-			    success: function(data, textStatus, jqXHR)
+			    success: function(data)//, textStatus, jqXHR)
 			    {
-					alert("수정완료");
+					alert("삭제완료");
 					
 					alert("메세지:"+data.success);
 					
-					location.href = "/board/boardList.do?pageNo=";
+					location.href = "/board/boardList.do?pageNo="+page;
+			    },
+			 
+			    error: function (err)//jqXHR, textStatus, errorThrown)
+			    {
+			    	alert("실패:"+err);
+			    	location.href = "/board/boardList.do?pageNo="+page;
+			    }
+			    
+			});
+		});
+
+		$j("#update").on("click",function(){
+			var page = $j("#pageNo").val();
+			var boardNum = $j("#boardNum").val();
+
+			//var param = {boardNum:${board.boardNum}};
+			var param = {boarNum:boardNum, pageNo:pageNo};			
+			$j.ajax({
+			    //url : "/board/boardUpdate.do",
+			    url : "/board/${boardType}/${boardNum}/boardUpdate.do",
+			    dataType: "json",
+			    type: "GET",
+			    data : param,
+			    success: function(data, textStatus, jqXHR)
+			    {
+					alert("성공");
+					
+					alert("메세지:"+data.success);
+					
+					location.href = "/board/boardList.do?pageNo="+page;
 			    },
 			    error: function (jqXHR, textStatus, errorThrown)
 			    {
@@ -33,17 +64,21 @@
 			    }
 			});
 		});
-
 	});
 	
 
 </script>
 <body>
-<input type="hidden" id="boardNum" value=${board.boardNum}>
+<input type="hidden" name="boardNum" id="boardNum" value=${board.boardNum}>
+<input type="hidden" id="pageNo" value=${pageNo.pageNo}>
 <table align="center">
 	<tr>
 		<td align="right">
-			<input type ="button" value="수정" id ="update" onclick="location.href='/board/boardUpdate'">
+			
+			<!-- 
+			<input type ="button" value="수정" id ="update" onclick="location.href='/board/boardUpdate.do'">
+			 -->
+			<input type = "button" value= "수정" id = "update" onclick="location.href='/board/${board.boardType}/${board.boardNum}/boardUpdate.do'">
 			<input type ="button" value="삭제" id="delete">
 		</td>
 	</tr>

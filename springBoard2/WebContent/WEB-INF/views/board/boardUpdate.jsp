@@ -12,8 +12,10 @@
 	$j(document).ready(function(){
 		
 		$j("#update").on("click",function(){
+			
 			var $frm = $j('.boardUpdate :input');
 			var param = $frm.serialize();
+			var page = $j('#pageNo').val();
 			
 			$j.ajax({
 			    url : "/board/boardUpdateAction.do",
@@ -26,7 +28,7 @@
 					
 					alert("¸Þ¼¼Áö:"+data.success);
 					
-					location.href = "/board/boardList.do?pageNo=";
+					location.href = "/board/boardList.do?pageNo="+page;
 			    },
 			    error: function (jqXHR, textStatus, errorThrown)
 			    {
@@ -39,9 +41,11 @@
 
 </script>
 <body>
-<input type="hidden" id="boardNum" value=${board.boardNum}>
+
 <form class="boardUpdate">
-	
+<input type="hidden" name="boardNum" value="${board.boardNum}">
+<input type="hidden" id="pageNo" value="${pageNo.pageNo}">
+
 	<table align="center">
 		<tr>
 			<td align="right">						

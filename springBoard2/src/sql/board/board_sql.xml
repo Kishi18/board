@@ -46,8 +46,10 @@
 			,BOARD_COMMENT
 		FROM
 			BOARD
-    	WHERE 	BOARD_TYPE = #{boardType}
-    	AND 	BOARD_NUM  = #{boardNum}
+    	WHERE 	
+    		BOARD_TYPE = #{boardType}
+    	AND 	
+    		BOARD_NUM  = #{boardNum}
     </select>	
     
     <select id="boardInsert" parameterType="com.spring.board.vo.BoardVo" resultMap="boardVo">

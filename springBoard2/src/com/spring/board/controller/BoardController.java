@@ -42,9 +42,8 @@ public class BoardController {
 		
 		List<BoardVo> boardList = new ArrayList<BoardVo>();
 		
-		int page = 1;
 		int totalCnt = 0;
-		
+		int page = 1;
 		if(pageVo.getPageNo() == 0){
 			pageVo.setPageNo(page);
 		}
@@ -66,6 +65,12 @@ public class BoardController {
 		
 		BoardVo boardVo = new BoardVo();
 		
+		PageVo pageVo = new PageVo();
+		int page = 1;
+		if(pageVo.getPageNo() == 0){
+			pageVo.setPageNo(page);
+		}
+		model.addAttribute("pageNo",pageVo);
 		
 		boardVo = boardService.selectBoard(boardType,boardNum);
 		
@@ -79,13 +84,20 @@ public class BoardController {
 	@RequestMapping(value = "/board/boardWrite.do", method = RequestMethod.GET)
 	public String boardWrite(Locale locale, Model model) throws Exception{
 		
+		PageVo pageVo = new PageVo();
+		int page = 1;
+		if(pageVo.getPageNo() == 0){
+			pageVo.setPageNo(page);
+		}
+		
+		model.addAttribute("pageNo",pageVo);		
 		
 		return "board/boardWrite";
 	}
 	
 	@RequestMapping(value = "/board/boardWriteAction.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String boardWriteAction(Locale locale,BoardVo boardVo) throws Exception{
+	public String boardWriteAction(Locale locale,BoardVo boardVo, Model model) throws Exception{
 		
 		HashMap<String, String> result = new HashMap<String, String>();
 		CommonUtil commonUtil = new CommonUtil();
@@ -108,7 +120,7 @@ public class BoardController {
 //		return "board/boardUpdate";
 //	}
 	
-	@RequestMapping(value="/board/boardUpdate.do", method = RequestMethod.GET)
+	@RequestMapping(value="/board/{boardType}/{boardNum}/boardUpdate.do", method = RequestMethod.GET)
 	public String boardUpdate(Locale locale, Model model
 			,@PathVariable("boardType")String boardType
 			,@PathVariable("boardNum")int boardNum) throws Exception{
@@ -116,6 +128,13 @@ public class BoardController {
 		BoardVo boardVo = new BoardVo();		
 		
 		boardVo = boardService.selectBoard(boardType,boardNum);
+		
+		PageVo pageVo = new PageVo();
+		int page = 1;
+		if(pageVo.getPageNo() == 0){
+			pageVo.setPageNo(page);
+		}
+		model.addAttribute("pageNo",pageVo);
 		
 		model.addAttribute("boardType", boardType);
 		model.addAttribute("boardNum", boardNum);
@@ -140,11 +159,15 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/board/boardDeleteAction.do", method = RequestMethod.POST)
-	public String boardDelete(int boardNum) throws Exception{
-		
+	public String boardDelete(int boardNum) throws Exception{ 
+		/*
+		 * boardView.jsp에서 boardNum값을 받아옴
+		 * 실패메세지는 뜨는데 DB에서는 삭제되며 실행중인 화면유지
+		 * 리스트로 돌아가면 해당 항목은 사라진것 확인 가능		
+		*/
 		boardService.boardDelete(boardNum);
 		
-		return "board/boardlist";
+		return "board/boardList";
 	}
 	
 }
