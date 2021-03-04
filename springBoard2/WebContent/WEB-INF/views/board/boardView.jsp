@@ -32,7 +32,7 @@
 			    error: function (err)//jqXHR, textStatus, errorThrown)
 			    {
 			    	alert("½ÇÆÐ:"+err);
-			    	location.href = "/board/boardList.do?pageNo="+page;
+			    	//location.href = "/board/boardList.do?pageNo="+page;
 			    }
 			    
 			});

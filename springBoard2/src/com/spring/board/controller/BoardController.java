@@ -159,15 +159,23 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/board/boardDeleteAction.do", method = RequestMethod.POST)
-	public String boardDelete(int boardNum) throws Exception{ 
+	@ResponseBody
+	public String boardDelete(Locale locale, int boardNum) throws Exception{ 
+	
+		HashMap<String, String> result = new HashMap<String,String>();
+		CommonUtil commonUtil = new CommonUtil();
+		int resultCnt = boardService.boardDelete(boardNum); //삭제하는부분
+		
+		result.put("success",(resultCnt >0)?"Y":"N");
+		String callbackMsg = commonUtil.getJsonCallBackString(" ", result);
+		
+		return callbackMsg;
 		/*
 		 * boardView.jsp에서 boardNum값을 받아옴
 		 * 실패메세지는 뜨는데 DB에서는 삭제되며 실행중인 화면유지
-		 * 리스트로 돌아가면 해당 항목은 사라진것 확인 가능		
+		 * 리스트로 돌아가면 해당 항목은 사라진것 확인 가능	
+		 * @ResponseBody 추가, commonutil이용한 callbackMsg 내용전달로 삭제확인	
 		*/
-		boardService.boardDelete(boardNum);
-		
-		return "board/boardList";
 	}
 	
 }
