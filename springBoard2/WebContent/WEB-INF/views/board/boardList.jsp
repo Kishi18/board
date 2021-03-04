@@ -8,26 +8,48 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>list</title>
 </head>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js">
-
+<script type="text/javascript">
+	
 	$j(document).ready(function(){
+
+		$j("#ckall").on("click",function(){
+			console.log("test1");
+
+			if($j("#ckall").is(":checked")){
+				$j("input[name='menu']").prop("checked",true);
+			}else{
+				$j("input[name='menu']").prop("checked",false);
+			}
+		});
+		
+		$j("input[name='menu']").on("click",function(){
+			if($j("input[name='menu']:checked").length == 4){ // 인풋 네임 중에 menu인 애들이 체크되어있는 애들을 .length로 카운트한다.
+				$j("#ckall").prop("checked",true);
+			}else{
+				$j("#ckall").prop("checked",false);
+			}
+			
+		});
 		/*
-		$j("#all").click(function(){
-			if($j("all").prop("cheked")){
+		$j("#ckall").click(function(){
+			if($j("#ckall").prop("cheked")){
 				$j("input[name='menu']").prop("checked",true);
 			}else{
 				$j("input[name='menu']").prop("checked",false);
 			}
 		});
 		*/
-		$j("#all").click(function(){
-			if($j("#all").is(":checked")){
-				$j(".menu").prop("checked",true);
-			}else{
-				$j(".menu").prop("checked",false);
-			}
+	});
+	
+	/*
+	$j(document).ready(function(){
+		
+		$j("#ckall").on("click",function(){
+			console.log("test=");
+			
 		});
 	});
+	*/
 
 </script>
 <body>
@@ -76,7 +98,7 @@
 	</tr>
 	<tr>
 		<td>
-			<input type="checkbox" name="menu" id="all" value="all">전체
+			<input type="checkbox" name="all_menu" id="ckall" value="all">전체
 			<input type="checkbox" name="menu" id="a01" value="a01">일반
 			<input type="checkbox" name="menu" id="a02" value="a02">QnA
 			<input type="checkbox" name="menu" id="a03" value="a03">익명
