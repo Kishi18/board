@@ -43,7 +43,7 @@
 			var boardNum = $j("#boardNum").val();
 
 			//var param = {boardNum:${board.boardNum}};
-			var param = {boarNum:boardNum, pageNo:pageNo};			
+			var param = {boarNum:boardNum, pageNo:pageNo ,};			
 			$j.ajax({
 			    //url : "/board/boardUpdate.do",
 			    url : "/board/${boardType}/${boardNum}/boardUpdate.do",
@@ -77,8 +77,8 @@
 			<td align="right">
 				<!-- 
 			<input type ="button" value="수정" id ="update" onclick="location.href='/board/boardUpdate.do'">
-			 --> <input type="button" value="수정" id="update"
-				onclick="location.href='/board/${board.boardType}/${board.boardNum}/boardUpdate.do'">
+			 --> 
+				<input type="button" value="수정" id="update"	onclick="location.href='/board/${board.boardType}/${board.boardNum}/boardUpdate.do'">
 				<input type="button" value="삭제" id="delete">
 			</td>
 		</tr>
@@ -90,7 +90,7 @@
 							Type
 						</td>
 						<td width="400">
-							셀렉트박스값
+							${board.boardType}
 						</td>
 					</tr>
 					<tr>

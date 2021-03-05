@@ -11,6 +11,8 @@
 
 	$j(document).ready(function(){
 		
+		$j("#select_type").val("${boardType}");
+		
 		$j("#update").on("click",function(){
 			
 			var $frm = $j('.boardUpdate :input');
@@ -25,7 +27,7 @@
 			    success: function(data, textStatus, jqXHR)
 			    {
 					alert("수정완료");
-					
+ 					
 					alert("메세지:"+data.success);
 					
 					location.href = "/board/boardList.do?pageNo="+page;
@@ -44,7 +46,7 @@
 
 <form class="boardUpdate">
 <input type="hidden" name="boardNum" value="${board.boardNum}">
-<input type="hidden" id="pageNo" value="${pageNo.pageNo}">
+<input type="hidden" id="pageNo" name="pageNo" value="${pageNo.pageNo}">
 
 	<table align="center">
 		<tr>
@@ -60,11 +62,11 @@
 						Type
 						</td>
 						<td width="400">
-							<select name="type">
-  								<option value="a01">일반</option>
-  								<option value="a02">QnA</option>
-  								<option value="a03">익명</option>
-  								<option value="a04">자유</option>
+							<select id="select_type" name="boardType">
+  								<option value="일반">일반</option>
+  								<option value="QnA">QnA</option>
+  								<option value="익명">익명</option>
+  								<option value="자유">자유</option>
 							</select>
 						</td>
 					</tr>

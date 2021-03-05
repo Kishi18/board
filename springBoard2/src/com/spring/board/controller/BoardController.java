@@ -148,7 +148,7 @@ public class BoardController {
 	public String boardUpdateAction(Locale locale, BoardVo boardVo) throws Exception{
 		HashMap<String, String> result = new HashMap<String,String>();
 		CommonUtil commonUtil = new CommonUtil();
-		int boardNum = boardVo.getBoardNum() ;
+		//int boardNum = boardVo.getBoardNum() ;
 		int resultCnt = boardService.boardUpdate(boardVo);
 		
 		result.put("success",(resultCnt >0)?"Y":"N");

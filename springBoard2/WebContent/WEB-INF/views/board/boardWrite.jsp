@@ -12,9 +12,11 @@
 	$j(document).ready(function(){
 		
 		$j("#submit").on("click",function(){
-			var $frm = $j('.boardWrite :input');
+			var $frm = $j('.boardWrite :input'); //select box 값도 읽어오는듯
 			var param = $frm.serialize();
 			var page = $j('#pageNo').val();
+			
+			//var type = $j('#select_type option:selected').val(); // Type 값읽어오기
 			
 			$j.ajax({
 			    url : "/board/boardWriteAction.do",
@@ -56,8 +58,8 @@
 						Type
 						</td>
 						<td width="400">
-							<select name="type">
-  								<option value="일반" selected="selected">일반</option>
+							<select id="select_type" name="boardType"> <!-- name값에 따라서 데이터를 찾아가기 때문에 잘 맞춰줘야 함  -->  								
+								<option value="일반" selected="selected">일반</option>
   								<option value="QnA">QnA</option>
   								<option value="익명">익명</option>
   								<option value="자유">자유</option>
