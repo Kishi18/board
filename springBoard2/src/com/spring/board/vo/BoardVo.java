@@ -37,7 +37,30 @@ COMMENT ON COLUMN BOARD.FILE_ROOT IS '파일';
 	private String	modifier;
 	private int totalCnt;
 	
+	private String	code_Name;
+	private String	code_Type;
+	private String	code_Id;
+	private int numRow;
 	
+	
+	public String getCode_Name() {
+		return code_Name;
+	}
+	public void setCode_Name(String code_Name) {
+		this.code_Name = code_Name;
+	}
+	public String getCode_Type() {
+		return code_Type;
+	}
+	public void setCode_Type(String code_Type) {
+		this.code_Type = code_Type;
+	}
+	public String getCode_Id() {
+		return code_Id;
+	}
+	public void setCode_Id(String code_Id) {
+		this.code_Id = code_Id;
+	}
 	public int getTotalCnt() {
 		return totalCnt;
 	}
@@ -79,6 +102,12 @@ COMMENT ON COLUMN BOARD.FILE_ROOT IS '파일';
 	}
 	public void setModifier(String modifier) {
 		this.modifier = modifier;
+	}
+	public int getNumRow() {
+		return numRow;
+	}
+	public void setNumRow(int numRow) {
+		this.numRow = numRow;
 	}
 	
 	

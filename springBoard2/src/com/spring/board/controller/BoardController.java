@@ -48,6 +48,8 @@ public class BoardController {
 			pageVo.setPageNo(page);
 		}
 		
+		
+		
 		boardList = boardService.SelectBoardList(pageVo);
 		totalCnt = boardService.selectBoardCnt();
 		
@@ -108,7 +110,6 @@ public class BoardController {
 		String callbackMsg = commonUtil.getJsonCallBackString(" ",result);
 		
 		System.out.println("callbackMsg::"+callbackMsg);
-		
 		
 		
 		return callbackMsg;

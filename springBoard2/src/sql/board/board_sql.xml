@@ -7,15 +7,21 @@
     	<result property="boardNum" 	column="BOARD_NUM"/>
     	<result property="boardTitle" 	column="BOARD_TITLE"/>
     	<result property="boardComment" column="BOARD_COMMENT"/>
+    	<result property="code_Name" column="CODE_NAME"/>
+    	<result property="code_Id" column="CODE_ID"/>
+    	<result property="code_Type" column="CODE_TYPE"/>
+    	<result property="totalCnt" column="TOTAL_CNT"/>
+    	<result property="numRow" column="NUMROW"/>
     </resultMap>
     
-    <select id="boardList" parameterType="com.spring.board.vo.PageVo" resultMap="boardVo">
+    <select id="boardList" parameterType="com.spring.board.vo.PageVo" resultMap="boardVo"> 
+   <!-- 
         SELECT 
 		  BOARD_TYPE
 		  ,BOARD_NUM
 		  ,BOARD_TITLE
 		  ,BOARD_COMMENT
-		  ,TOTAL_CNT
+		  ,COUNT(*) OVER() AS TOTAL_CNT
 		FROM 
 		(
 		  SELECT
@@ -29,6 +35,23 @@
 				BOARD	
 		)
 		WHERE NUMROW BETWEEN (#{pageNo}-1)*10 + 1 AND (#{pageNo})*10
+-->
+	SELECT 
+    	COM_CODE.CODE_NAME,
+    	BOARD.BOARD_NUM,
+    	BOARD.BOARD_TITLE,
+    	BOARD.BOARD_COMMENT,
+    	BOARD.BOARD_TYPE,
+    	ROW_NUMBER() OVER(ORDER BY BOARD_NUM DESC) AS NUMROW,
+    	COUNT(*) OVER() AS TOTAL_CNT
+	FROM
+    	COM_CODE 
+	INNER JOIN 
+    	BOARD
+	ON 
+    	COM_CODE.CODE_ID = BOARD.BOARD_TYPE 
+	WHERE 
+    	COM_CODE.CODE_TYPE = 'menu'
     </select>
     
     <select id="boardTotal" parameterType="Integer" resultType="Integer">
@@ -40,19 +63,49 @@
     	
     <select id="boardView" parameterType="com.spring.board.vo.BoardVo" resultMap="boardVo">
     	SELECT
-        	BOARD_TYPE
+        	COM_CODE.CODE_NAME
 			,BOARD_NUM
 			,BOARD_TITLE
 			,BOARD_COMMENT
+			,BOARD_TYPE
 		FROM
 			BOARD
-    	WHERE 	
-    		BOARD_TYPE = #{boardType}
+		INNER JOIN
+			COM_CODE
+		ON
+			COM_CODE.CODE_ID = BOARD.BOARD_TYPE 
+		WHERE 
+    		COM_CODE.CODE_TYPE = 'menu' 
     	AND 	
     		BOARD_NUM  = #{boardNum}
+    	
     </select>	
     
     <select id="boardInsert" parameterType="com.spring.board.vo.BoardVo" resultMap="boardVo">
+    <!-- 
+        INSERT INTO 
+        	BOARD(
+        		BOARD_TYPE,
+        		BOARD_NUM,
+        		BOARD_TITLE,
+        		BOARD_COMMENT,
+        		CREATOR,
+        		CREATE_TIME,
+        		MODIFIER,
+        		MODIFIED_TIME
+        		)
+                VALUES (
+        		(SELECT COM_CODE.CODE_NAME FROM COM_CODE INNER JOIN BOARD ON COM_CODE.CODE_ID = BOARD.BOARD_TYPE WHERE COM_CODE.CODE_TYPE = 'MENU'),
+        		(SELECT NVL(MAX(BOARD_NUM)+1,0) FROM BOARD),
+        		#{boardTitle},
+        		#{boardComment},
+        		'SYSTEM',
+        		TO_CHAR(SYSDATE),
+        		'SYSTEM',
+        		TO_CHAR(SYSDATE)
+        	)
+        	 -->
+           
         INSERT INTO 
         	BOARD (
         		BOARD_TYPE,
@@ -67,9 +120,6 @@
         	VALUES (
         		#{boardType},
         		 (SELECT NVL(MAX(BOARD_NUM)+1,0) FROM BOARD),
-        		<!-- '1',
-        		(SELECT NVL(MAX(BOARD_NUM)+1,0) FROM BOARD WHERE BOARD_TYPE='1'),
-        		 -->
         		#{boardTitle},
         		#{boardComment},
         		'SYSTEM',
@@ -77,18 +127,6 @@
         		'SYSTEM',
         		TO_CHAR(SYSDATE)
         	)
-        <!-- 
-        (#{boardType}
-        ,(SELECT NVL(MAX(BOARD_NUM)+1,0)
-	    FROM BOARD
-	    WHERE BOARD_TYPE = #{boardType})
-        ,#{boardTitle}
-        ,#{boardComment}
-        ,'SYSTEM'
-        ,TO_CHAR(SYSDATE)
-        ,'SYSTEM'
-        ,TO_CHAR(SYSDATE)
-        ) -->
     </select>
     
     <select id="boardUpdate" parameterType="com.spring.board.vo.BoardVo" resultMap="boardVo">
@@ -109,7 +147,18 @@
     	BOARD
     WHERE
     	BOARD_NUM=#{boardNum}
+    </select>  
+    
+    <select id="changeboardType" parameterType="com.spring.board.vo.BoardVo" resultMap="boardVo">
+    	SELECT 
+    		COM_CODE.CODE_NAME 
+    	FROM 
+    		COM_CODE 
+    	INNER JOIN 
+    		BOARD 
+    	ON 
+    		COM_CODE.CODE_ID = BOARD.BOARD_TYPE 
+    	WHERE 
+    		COM_CODE.CODE_TYPE = 'menu'
     </select>
-    
-    
 </mapper>

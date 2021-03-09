@@ -60,6 +60,6 @@ public class BoardDaoImpl implements BoardDao{
 		// TODO Auto-generated method stub
 		return sqlSession.delete("board.boardDelete", boardNum);
 	}
-	
+
 	
 }

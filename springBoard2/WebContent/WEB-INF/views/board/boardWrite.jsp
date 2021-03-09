@@ -16,6 +16,7 @@
 			var param = $frm.serialize();
 			var page = $j('#pageNo').val();
 			
+			console.log(param+"/"+page);
 			//var type = $j('#select_type option:selected').val(); // Type 값읽어오기
 			
 			$j.ajax({
@@ -59,10 +60,10 @@
 						</td>
 						<td width="400">
 							<select id="select_type" name="boardType"> <!-- name값에 따라서 데이터를 찾아가기 때문에 잘 맞춰줘야 함  -->  								
-								<option value="일반" selected="selected">일반</option>
-  								<option value="QnA">QnA</option>
-  								<option value="익명">익명</option>
-  								<option value="자유">자유</option>
+								<option value="a01" selected="selected">일반</option>
+  								<option value="a02">QnA</option>
+  								<option value="a03">익명</option>
+  								<option value="a04">자유</option>
 							</select>
 						</td>
 					</tr>

@@ -69,9 +69,9 @@
 
 </script>
 <body>
-	<input type="hidden" name="boardNum" id="boardNum"
-		value=${board.boardNum}>
+	<input type="hidden" name="boardNum" id="boardNum" value=${board.boardNum}>
 	<input type="hidden" id="pageNo" value=${pageNo.pageNo}>
+	
 	<table align="center">
 		<tr>
 			<td align="right">
@@ -90,7 +90,7 @@
 							Type
 						</td>
 						<td width="400">
-							${board.boardType}
+							${board.code_Name}
 						</td>
 					</tr>
 					<tr>
