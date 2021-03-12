@@ -1,5 +1,6 @@
 package com.spring.board.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,19 @@ public class boardServiceImpl implements boardService{
 		// TODO Auto-generated method stub
 		return boardDao.boardDelete(boardNum);
 	}
+
+	@Override
+	public int boardCheckId(BoardVo boardVo) throws Exception {
+		// TODO Auto-generated method stub
+		return boardDao.boardCheckId(boardVo);
+	}
+
+	@Override
+	public List<BoardVo> selectCheckList(List<String> checkArray, PageVo pageVo) throws Exception {
+		// TODO Auto-generated method stub
+		return boardDao.selectCheckList(checkArray,pageVo);
+	}
+
+
 	
 }

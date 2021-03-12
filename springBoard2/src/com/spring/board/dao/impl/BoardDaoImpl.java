@@ -1,5 +1,6 @@
 package com.spring.board.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -60,6 +61,16 @@ public class BoardDaoImpl implements BoardDao{
 		// TODO Auto-generated method stub
 		return sqlSession.delete("board.boardDelete", boardNum);
 	}
-
+	@Override
+	public int boardCheckId(BoardVo boardVo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("board.boardCheckId",boardVo);
+	}
+	@Override
+	public List<BoardVo> selectCheckList(List<String> checkArray, PageVo pageVo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.changeboardType",checkArray);
+	}
+	
 	
 }

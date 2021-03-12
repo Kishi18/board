@@ -48,8 +48,6 @@ public class BoardController {
 			pageVo.setPageNo(page);
 		}
 		
-		
-		
 		boardList = boardService.SelectBoardList(pageVo);
 		totalCnt = boardService.selectBoardCnt();
 		
@@ -171,13 +169,96 @@ public class BoardController {
 		String callbackMsg = commonUtil.getJsonCallBackString(" ", result);
 		
 		return callbackMsg;
-		/*
-		 * boardView.jsp에서 boardNum값을 받아옴
-		 * 실패메세지는 뜨는데 DB에서는 삭제되며 실행중인 화면유지
-		 * 리스트로 돌아가면 해당 항목은 사라진것 확인 가능	
+		/*	
 		 * @ResponseBody 추가, commonutil이용한 callbackMsg 내용전달로 삭제확인	
 		*/
 	}
+	
+	@RequestMapping(value="/board/boardCheckbox.do", method= RequestMethod.GET)
+	//public String boardCheckbox(Locale locale, @RequestParam(value="checkArray[]") List<String> checkArray, Model model, PageVo pageVo) throws Exception {
+	public String boardCheckbox(Locale locale, Model model, PageVo pageVo, @RequestParam("menu") List<String> checkArray) throws Exception{
+		List<BoardVo> boardList = new ArrayList<BoardVo>();
+		
+		//List<String> checkArray = new ArrayList<String>();
+		
+		
+		System.out.println("checkArray 크기:"+checkArray.size());	
+		
+		int arraySize = checkArray.size();
+		for(int i = 0; i< arraySize; i++) {
+			System.out.println("checkArray"+i+":"+checkArray.get(i));//checkArray.get(i) 로 각각 나눠서 배열값 뿌릴수있음
+			checkArray.add(checkArray.get(i));
+		}
+//		for(int i = 0 ; i<arraySize; i++) {
+//			System.out.println("checkArray" + i + ":" + checkArray[i]);
+//		}
+	
+		int totalCnt = 0;
+		int page = 1;
+		if(pageVo.getPageNo() == 0){
+			pageVo.setPageNo(page);
+		}
+//		
+		boardList = boardService.selectCheckList(checkArray,pageVo);
+//		
+		totalCnt = boardService.selectBoardCnt();
+		
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("totalCnt", totalCnt);
+		model.addAttribute("pageNo", page);
+		
+//		HashMap<String, String> result = new HashMap<String,String>();
+//		CommonUtil commonUtil = new CommonUtil();
+//		
+//		result.put("success",(boardList!=null)?"Y":"N");
+//		String callbackMsg = commonUtil.getJsonCallBackString(" ", result);
+//		
+//		return callbackMsg;
+		
+		return "board/boardList";
+	}
+	
+	@RequestMapping(value = "/board/boardJoin.do", method = RequestMethod.GET)
+	public String boardJoin(Locale locale, Model model) throws Exception{
+		
+		PageVo pageVo = new PageVo();
+		int page = 1;
+		if(pageVo.getPageNo() == 0){
+			pageVo.setPageNo(page);
+		}
+		
+		model.addAttribute("pageNo",pageVo);		
+		
+		return "board/boardJoin";
+	}
+	
+	@RequestMapping(value = "/board/boardLogin.do", method = RequestMethod.GET)
+	public String boardLogin(Locale locale, Model model) throws Exception{
+		
+		PageVo pageVo = new PageVo();
+		int page = 1;
+		if(pageVo.getPageNo() == 0){
+			pageVo.setPageNo(page);
+		}
+		
+		model.addAttribute("pageNo",pageVo);		
+		
+		return "board/boardLogin";
+	}
+	
+	@RequestMapping(value="/board/boardCheckId.do", method= RequestMethod.POST)
+	@ResponseBody
+	public String boardCheckId(Locale locale, Model model) throws Exception{
+		HashMap<String, String> result = new HashMap<String,String>();
+		CommonUtil commonUtil = new CommonUtil();
+		//int resultCnt = boardService.; //아이디 중복 체크하는 부분
+		
+		//result.put("success",(resultCnt >0)?"Y":"N");
+		String callbackMsg = commonUtil.getJsonCallBackString(" ", result);
+		
+		return callbackMsg;
+	}
+	
 	
 }
 

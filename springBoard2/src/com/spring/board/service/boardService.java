@@ -1,5 +1,6 @@
 package com.spring.board.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.spring.board.vo.BoardVo;
@@ -20,5 +21,9 @@ public interface boardService {
 	public int boardUpdate(BoardVo boardVo) throws Exception;
 	
 	public int boardDelete(int boardNum) throws Exception;
+	
+	public int boardCheckId(BoardVo boardVo) throws Exception;
+	
+	public List<BoardVo> selectCheckList(List<String> checkArray, PageVo pageVo) throws Exception;
 
 }

@@ -11,7 +11,7 @@
     	<result property="code_Id" column="CODE_ID"/>
     	<result property="code_Type" column="CODE_TYPE"/>
     	<result property="totalCnt" column="TOTAL_CNT"/>
-    	<result property="numRow" column="NUMROW"/>
+    	<!-- <result property="numRow" column="NUMROW"/>  -->
     </resultMap>
     
     <select id="boardList" parameterType="com.spring.board.vo.PageVo" resultMap="boardVo"> 
@@ -52,6 +52,10 @@
     	COM_CODE.CODE_ID = BOARD.BOARD_TYPE 
 	WHERE 
     	COM_CODE.CODE_TYPE = 'menu'
+    <!-- 
+    AND
+    	NUMROW BETWEEN (#{pageNo}-1)*10 + 1 AND (#{pageNo})*10
+     -->
     </select>
     
     <select id="boardTotal" parameterType="Integer" resultType="Integer">
@@ -149,16 +153,41 @@
     	BOARD_NUM=#{boardNum}
     </select>  
     
-    <select id="changeboardType" parameterType="com.spring.board.vo.BoardVo" resultMap="boardVo">
-    	SELECT 
-    		COM_CODE.CODE_NAME 
-    	FROM 
-    		COM_CODE 
-    	INNER JOIN 
-    		BOARD 
-    	ON 
-    		COM_CODE.CODE_ID = BOARD.BOARD_TYPE 
-    	WHERE 
-    		COM_CODE.CODE_TYPE = 'menu'
+    <!-- checkbox값으로 리스트 조회하는 기능 -->
+    <select id="changeboardType" parameterType="com.spring.board.vo.PageVo" resultMap="boardVo">
+    SELECT 
+    	COM_CODE.CODE_NAME,
+    	BOARD.BOARD_NUM,
+    	BOARD.BOARD_TITLE,
+    	BOARD.BOARD_COMMENT,
+    	BOARD.BOARD_TYPE,
+    	ROW_NUMBER() OVER(ORDER BY BOARD_NUM DESC) AS NUMROW,
+    	COUNT(*) OVER() AS TOTAL_CNT
+	FROM
+    	COM_CODE 
+	INNER JOIN 
+    	BOARD
+	ON 
+    	COM_CODE.CODE_ID = BOARD.BOARD_TYPE
+    	 
+	WHERE 
+    	COM_CODE.CODE_TYPE = 'menu' 
+    AND
+    <!-- foreach collection= "전달받은 인자값(변수이름)", item= "foreach문에서 사용할 매개변수 이름", separator="foreach문이 한번 돌고 다음번 돌 때의 구분자"
+    	https://mingggu.tistory.com/71 (mybatis 용도)
+     -->
+		
+        BOARD.BOARD_TYPE IN
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+         #{item}
+    	</foreach>
+    <!-- 
+    AND
+    	WHERE NUMROW BETWEEN (#{pageNo}-1)*10 + 1 AND (#{pageNo})*10       
+   	-->
+    </select>
+    
+    <select id="boardCheckId" parameterType = "com.spring.board.vo.BoardVo" resultMap="boardVo">
+    	SELECT    
     </select>
 </mapper>

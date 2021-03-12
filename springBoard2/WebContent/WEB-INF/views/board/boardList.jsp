@@ -11,6 +11,8 @@
 <script type="text/javascript">
 	
 	$j(document).ready(function(){
+		
+		var boxChecked = [];
 
 		//'전체' 체크박스를 선택했을경우
 		$j("#ckall").on("click",function(){
@@ -30,33 +32,29 @@
 				$j("#ckall").prop("checked",false); // menu 4개가 아니면 '전체'도 체크해제
 			}		
 		});
-		
-		
-		
+				
 		function valueCheck(){
-			var checkArray = new Array();
+			var checkbox_frm = document.checkbox_frm;
 			
-			$j("input[name='menu']:checked").each(function(){
-				checkArray.push(this.value);				
+			var checkArray = [];
+			
+			$j("input[name='menu']:checked").each(function(i){
+				checkArray.push($j(this).val());			
 			});	
 			console.log(checkArray);
-		}
-		
-		
-		//조회 버튼을 클릭했을때
-		$j("#search_btn").on("click",function(){
-			console.log("조회버튼 가능");
-			if($j("input[name='menu']:checked").length == 0){
-				alert("체크된 항목 없음");
-			}
 			
-			valueCheck();
-			
-			var param = {"checkArray":checkArray};
+			//var param = {checkArray:checkArray};
 			var page = $j('#pageNo').val();
 			
+			if($j("input[name='menu']:checked").length == 0){
+				alert("체크된 항목 없음");
+			}else{
+				checkbox_frm.submit();
+			}
+
+			/*			
 			$j.ajax({
-			    url : "/board/boardList.do",
+			    url : "/board/boardCheckbox.do",
 			    dataType: "json",
 			    type: "POST",
 			    data : param,
@@ -67,24 +65,40 @@
 					alert("메세지:"+data.success);
 					
 					location.href = "/board/boardList.do?pageNo="+page;
+					
 			    },
-			 
+
 			    error: function (err)//jqXHR, textStatus, errorThrown)
 			    {
 			    	alert("실패:"+err);
-			    	//location.href = "/board/boardList.do?pageNo="+page;
-			    }
-			    
+			    } 
 			});
-
+			*/
+		}
+		
+		//조회 버튼을 클릭했을때
+		$j("#search_btn").on("click",function(){
+			console.log("조회버튼 가능");
+			/*
+			if($j("input[name='menu']:checked").length == 0){
+				alert("체크된 항목 없음");
+			}
+			*/	
+			
+			valueCheck();
 		});
 	});
 
 
 </script>
 <body>
+<input type="hidden" id="pageNo" value=${pageNo}>
 <table  align="center">
 	<tr>
+		<td align="left">
+			<a href ="/board/boardLogin.do">login</a>
+			<a href ="/board/boardJoin.do">join</a>
+		</td>
 		<td align="right">
 			total : ${totalCnt}
 		</td>
@@ -128,12 +142,14 @@
 	</tr>
 	<tr>
 		<td>
+		<form name="checkbox_frm" method="get" action="/board/boardCheckbox.do">
 			<input type="checkbox" name="all_menu" id="ckall" value="all">전체
 			<input type="checkbox" name="menu" id="a01" value="a01">일반
 			<input type="checkbox" name="menu" id="a02" value="a02">QnA
 			<input type="checkbox" name="menu" id="a03" value="a03">익명
 			<input type="checkbox" name="menu" id="a04" value="a04">자유
 			<input type="button" id="search_btn" name="search" value="조회">
+		</form>
 		</td>
 	</tr>
 </table>
