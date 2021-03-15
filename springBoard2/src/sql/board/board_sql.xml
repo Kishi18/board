@@ -187,6 +187,16 @@
    	-->
     </select>
     
+    <select id="selectTypeList" parameterType="String" resultMap="boardVo">
+    	SELECT
+    		CODE_ID,
+    		CODE_NAME
+    	FROM
+    		COM_CODE
+    	WHERE
+    		CODE_TYPE='menu'
+    </select>
+    
     <select id="boardCheckId" parameterType = "com.spring.board.vo.BoardVo" resultMap="boardVo">
     	SELECT    
     </select>

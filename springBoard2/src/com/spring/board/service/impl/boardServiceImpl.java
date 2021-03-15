@@ -77,6 +77,12 @@ public class boardServiceImpl implements boardService{
 		return boardDao.selectCheckList(checkArray,pageVo);
 	}
 
+	@Override
+	public List<BoardVo> selectTypeList(BoardVo boardVo) throws Exception {
+	//public List<String> selectTypeList(BoardVo boardVo) throws Exception {
+		// TODO Auto-generated method stub
+		return boardDao.selectTypeList(boardVo);
+	}
 
 	
 }

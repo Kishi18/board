@@ -71,6 +71,11 @@ public class BoardDaoImpl implements BoardDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("board.changeboardType",checkArray);
 	}
-	
+	@Override
+	public List<BoardVo> selectTypeList(BoardVo boardVo) throws Exception {
+	//public List<String> selectTypeList(BoardVo boardVo) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("board.selectTypeList",boardVo);
+	}
 	
 }

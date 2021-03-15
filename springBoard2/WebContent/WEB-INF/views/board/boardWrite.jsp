@@ -45,6 +45,7 @@
 <body>
 <form class="boardWrite">
 <input type="hidden" id="pageNo" value="${pageNo.pageNo}">
+
 	<table align="center">
 		<tr>
 			<td align="right">
@@ -60,10 +61,16 @@
 						</td>
 						<td width="400">
 							<select id="select_type" name="boardType"> <!-- name값에 따라서 데이터를 찾아가기 때문에 잘 맞춰줘야 함  -->  								
-								<option value="a01" selected="selected">${board.code_Name}</option>
-  								<option value="a02"></option>
-  								<option value="a03"></option>
-  								<option value="a04"></option>
+								<!-- 
+								<option value="a01" selected="selected">일반</option>
+  								<option value="a02">QnA</option>
+  								<option value="a03">익명</option>
+  								<option value="a04">자유</option>
+  								 -->
+  								 <c:forEach items="${selectBoxArray}" var="selectBoxType">
+  								 	<option value="${selectBoxType.code_Id}">${selectBoxType.code_Name}</option>
+  								 
+  								 </c:forEach>
 							</select>
 						</td>
 					</tr>

@@ -63,10 +63,10 @@
 						</td>
 						<td width="400">
 							<select id="select_type" name="boardType">
-  								<option id="a01" value="a01">일반</option>
-  								<option id="a02" value="a02">QnA</option>
-  								<option id="a03" value="a03">익명</option>
-  								<option id="a04" value="a04">자유</option>
+  								<c:forEach items="${selectBoxArray}" var="selectBoxType">
+  								 	<option value="${selectBoxType.code_Id}">${selectBoxType.code_Name}</option>
+  								 
+  								 </c:forEach>
 							</select>
 						</td>
 					</tr>

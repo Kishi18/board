@@ -82,7 +82,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/boardWrite.do", method = RequestMethod.GET)
-	public String boardWrite(Locale locale, Model model) throws Exception{
+	public String boardWrite(Locale locale, Model model, BoardVo boardVo) throws Exception{
 		
 		PageVo pageVo = new PageVo();
 		int page = 1;
@@ -90,8 +90,13 @@ public class BoardController {
 			pageVo.setPageNo(page);
 		}
 		
-		model.addAttribute("pageNo",pageVo);		
+		model.addAttribute("pageNo",pageVo);
 		
+		List<BoardVo> selectBoxArray = new ArrayList<BoardVo>();
+		selectBoxArray = boardService.selectTypeList(boardVo);
+		
+		model.addAttribute("selectBoxArray",selectBoxArray);
+
 		return "board/boardWrite";
 	}
 	
@@ -133,6 +138,12 @@ public class BoardController {
 		if(pageVo.getPageNo() == 0){
 			pageVo.setPageNo(page);
 		}
+		
+		List<BoardVo> selectBoxArray = new ArrayList<BoardVo>();
+		selectBoxArray = boardService.selectTypeList(boardVo);
+		
+		model.addAttribute("selectBoxArray",selectBoxArray);
+		
 		model.addAttribute("pageNo",pageVo);
 		
 		model.addAttribute("boardType", boardType);
@@ -177,11 +188,9 @@ public class BoardController {
 	@RequestMapping(value="/board/boardCheckbox.do", method= RequestMethod.GET)
 	//public String boardCheckbox(Locale locale, @RequestParam(value="checkArray[]") List<String> checkArray, Model model, PageVo pageVo) throws Exception {
 	public String boardCheckbox(Locale locale, Model model, PageVo pageVo, @RequestParam("menu") List<String> checkArray) throws Exception{
-		List<BoardVo> boardList = new ArrayList<BoardVo>();
-		
+		List<BoardVo> boardList = new ArrayList<BoardVo>();		
 		//List<String> checkArray = new ArrayList<String>();
-		
-		
+	
 		System.out.println("checkArray 크기:"+checkArray.size());	
 		
 		int arraySize = checkArray.size();
@@ -189,32 +198,20 @@ public class BoardController {
 			System.out.println("checkArray"+i+":"+checkArray.get(i));//checkArray.get(i) 로 각각 나눠서 배열값 뿌릴수있음
 			checkArray.add(checkArray.get(i));
 		}
-//		for(int i = 0 ; i<arraySize; i++) {
-//			System.out.println("checkArray" + i + ":" + checkArray[i]);
-//		}
-	
+
 		int totalCnt = 0;
 		int page = 1;
 		if(pageVo.getPageNo() == 0){
 			pageVo.setPageNo(page);
 		}
-//		
-		boardList = boardService.selectCheckList(checkArray,pageVo);
-//		
+		
+		boardList = boardService.selectCheckList(checkArray,pageVo);	
 		totalCnt = boardService.selectBoardCnt();
 		
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("totalCnt", totalCnt);
 		model.addAttribute("pageNo", page);
-		
-//		HashMap<String, String> result = new HashMap<String,String>();
-//		CommonUtil commonUtil = new CommonUtil();
-//		
-//		result.put("success",(boardList!=null)?"Y":"N");
-//		String callbackMsg = commonUtil.getJsonCallBackString(" ", result);
-//		
-//		return callbackMsg;
-		
+
 		return "board/boardList";
 	}
 	

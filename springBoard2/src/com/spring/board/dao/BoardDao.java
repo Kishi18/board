@@ -25,4 +25,8 @@ public interface BoardDao {
 	public int boardCheckId(BoardVo boardVo) throws Exception;
 
 	public List<BoardVo> selectCheckList(List<String> checkArray, PageVo pageVo) throws Exception;
+
+	public List<BoardVo> selectTypeList(BoardVo boardVo) throws Exception;
+//	public List<String> selectTypeList(BoardVo boardVo) throws Exception;
+
 }
